@@ -1,6 +1,9 @@
 document.getElementById("title").addEventListener("keyup", (event) => {
     let val = event.target.value;
-    console.log(val);
+    if (val == ""){
+        document.getElementById("resultat").innerHTML = "";
+        return;
+    }
 
     let xhr = new XMLHttpRequest();
 
@@ -35,16 +38,18 @@ document.getElementById("title").addEventListener("keyup", (event) => {
 });
 
 const afficheResultat = function(arrayFilms) {
-    if (arrayFilms.lenght == 0){
+    if (arrayFilms.length == 0){
         document.getElementById("resultat").innerHTML = "Aucun film ne correspond à votre recherche";
         return;
     }
     document.getElementById("resultat").innerHTML = "";
+    let p = document.createElement("p");
+    p.innerHTML = `Nombre de résultat${arrayFilms.length > 1 ? 's: ' : ': '} ${arrayFilms.length}`;
 
     let ul = document.createElement("ul");
     arrayFilms.forEach((elem) => {
         let li = document.createElement("li");
-        li.innerHTML = elem.titre + " , " + elem.dateSortie + " , " + elem.duree + " , " + elem.description;
+        li.innerHTML = elem.titre + ", " + elem.dateSortie + ", " + elem.duree + ", " + elem.description;
         li.dataset.filmId = elem.id; // on en a pas besoin mais on voit que ca existe ! 
         
         //clickable
@@ -53,5 +58,7 @@ const afficheResultat = function(arrayFilms) {
         });
         ul.appendChild(li);
     });
+    document.getElementById("resultat").appendChild(p);
     document.getElementById("resultat").appendChild(ul);
+    
 };
